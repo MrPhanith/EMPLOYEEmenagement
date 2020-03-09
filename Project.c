@@ -22,6 +22,7 @@ void AddEmployee(int x);
 void DisplayInfo();
 void updateInfo();
 void deleteInfo();
+void display_retire();
 //Main Program
 int main(){
     int select,n,i=1;
@@ -35,7 +36,8 @@ int main(){
         printf("  5. Display information of a specific employee\n");
         printf("  6. Show all employees sorted by started working date in descending order\n");
         printf("  7. Show all employees sorted by position in ascending order\n");
-        printf("  8. Exit\n");
+        printf("  8. Display all retired employees\n");
+        printf("  9. Exit\n");
         printf(">>>>>> Select (1-8): "); scanf("%d",&select);
         if(select==1){
             printf(">>>Input among of employee: "); scanf("%d",&n);
@@ -53,7 +55,11 @@ int main(){
         }else if(select==7){
             //
         }else if(select==8){
+            display_retire();
+        }else if(select==9){
             break;
+        }else{
+            printf("\nPlease select again!!!\n");
         }
         i++;
     }
@@ -179,6 +185,39 @@ void deleteInfo()
         fclose(file_tmp);
         remove(fname);  		// remove the original file
         rename(temp, fname); 	// rename the temporary file to original name
+}
+void display_retire()
+{
+    /*add i*/int i=0;
+    /*add str*/char str[11][100];
+    FILE *file;
+    file = fopen(fname,"r");
+    printf("|First nameLast name|ID|Year|Telephone|Working date|Position|Status|Email|\n");
+    //for (int i = 0; i < n; i++)
+    while(fscanf(file,"%s %s %s %s %s %s %s %s %s %s %s",str[0],str[1],str[2],str[3],str[4],str[5],str[6],str[7],str[8],str[9],str[10])!=EOF){
+            strcpy(info[i].firstname,str[0]);
+            strcpy(info[i].lastname,str[1]);
+            info[i].id=atoi(str[2]);
+            info[i].year=atoi(str[3]);
+            info[i].tel=atoi(str[4]);
+            info[i].Sdate.d=atoi(str[5]);
+            info[i].Sdate.m=atoi(str[6]);
+            info[i].Sdate.y=atoi(str[7]);
+            strcpy(info[i].position,str[8]);
+            strcpy(info[i].status,str[9]);
+            strcpy(info[i].email,str[10]);
+
+        if (strcmp(info[i].status,"retire")==0)
+        {
+            printf("|%s %s|%d|%d|%d|%d-%d-%d|%s|%s|%s|\n",info[i].firstname,info[i].lastname,info[i].id,info[i].year,info[i].tel,info[i].Sdate.d,info[i].Sdate.m,info[i].Sdate.y,info[i].position,info[i].status,info[i].email);
+        }
+        else
+        {
+            continue;
+        }
+        i++;
+    }
+    fclose(file);
 }
 
 
